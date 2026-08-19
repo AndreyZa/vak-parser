@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vak-parser"
+version = "1.0.0"
+description = "Издания перечня ВАК с действующей специальностью — из официального PDF"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Andrey Zavilgelsky" }]
+keywords = ["вак", "vak", "перечень", "научные издания", "pdf"]
+# Единственная зависимость: разбор PDF по координатам слов. Плоский
+# extract_text() пятиколоночную таблицу перечня перемешивает.
+dependencies = ["pdfplumber>=0.11"]
+
+[project.urls]
+Homepage = "https://github.com/AndreyZa/vak-parser"
+
+[project.scripts]
+vak-parser = "vak_parser:main"
+
+[tool.setuptools]
+py-modules = ["vak_parser"]
