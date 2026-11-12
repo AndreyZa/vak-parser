@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Тесты — на синтетических данных, без сети и без PDF.
+"""Тесты без сети: синтетические данные и маленькая координатная PDF-фикстура.
 
 Проверяется то, что ломается молча:
 
@@ -100,6 +100,16 @@ class TestSelect(unittest.TestCase):
         r = rec(spec=[(200.0, "2.3.8 2.3.5 1.2.2")], dates=[(200.0, "с 01.02.2022")])
         got = vp.select([r], "2.3.8", AS_OF)
         self.assertEqual(got[0]["codes"], ["1.2.2", "2.3.5", "2.3.8"])
+
+
+class TestPDFLayout(unittest.TestCase):
+    def test_real_pdf_coordinates_and_date_blocks(self):
+        path = Path(__file__).resolve().parent / "fixtures" / "vak-layout.pdf"
+        records = vp.parse(path, progress_every=0)
+        self.assertEqual(3, len(records))
+        found = vp.select(records, "2.3.8", AS_OF)
+        self.assertEqual(["Test Journal", "Mixed Journal"],
+                         [record["name"] for record in found])
 
 
 class TestMirrorDiscovery(unittest.TestCase):
